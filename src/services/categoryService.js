@@ -1,7 +1,9 @@
-import { CategoryModel } from "../models/categoryModel.js";
+/* eslint-disable import/extensions */
 import asyncHandler from "express-async-handler";
 import slugify from "slugify";
-import { ApiError } from "../utils/apiError.js";
+import ApiError from "../utils/apiError.js";
+import CategoryModel from "../models/categoryModel.js";
+
 // @desc     Get list of categories
 // @route    GET /api/v1/categories
 //@access    Public
@@ -35,7 +37,7 @@ export const getCategory = asyncHandler(async (req, res, next) => {
 //@access    Private
 
 export const createCategory = asyncHandler(async (req, res) => {
-  const name = req.body.name;
+  const { name } = req.body;
 
   const category = await CategoryModel.create({ name, slug: slugify(name) });
   res.status(201).json({ data: category });

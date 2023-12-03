@@ -1,10 +1,13 @@
+/* eslint-disable import/extensions */
 import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
-import { dbConnection } from "./src/config/database.js";
+import dbConnection from "./src/config/database.js";
 import categoryRoute from "./src/routes/categoryRoute.js";
-import { ApiError } from "./src/utils/apiError.js";
-import { globalError } from "./src/middleware/errorMiddleware.js";
+import subCategoryRoute from "./src/routes/subCategoryRoute.js";
+import brandRoute from "./src/routes/brandRoute.js";
+import ApiError from "./src/utils/apiError.js";
+import globalError from "./src/middleware/errorMiddleware.js";
 
 dotenv.config({ path: "config.env" });
 
@@ -25,6 +28,8 @@ if (process.env.NODE_ENV === "development") {
 
 //Mount Route
 app.use("/api/v1/categories", categoryRoute);
+app.use("/api/v1/subCategories", subCategoryRoute);
+app.use("/api/v1/brands", brandRoute);
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`Can't find this route: ${req.originalUrl}`, 400));

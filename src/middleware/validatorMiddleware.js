@@ -1,11 +1,13 @@
 import { validationResult } from "express-validator";
 
 // @desc  Finds the validation errors in this request and wraps them in an object with handy functions
-export const validatorMiddleware = (req, res, next) => {
+const validatorMiddleware = (req, res, next) => {
   const errors = validationResult(req);
-  console.log("error", errors.array());
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
   next();
 };
+
+export default validatorMiddleware;

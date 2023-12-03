@@ -1,7 +1,9 @@
 import { connect } from "mongoose";
 
-export const dbConnection = () => {
+const dbConnection = () => {
   connect(process.env.DB_URI).then((conn) => {
     console.log(`Database Connected: ${conn.connection.host}`);
   });
 };
+
+export default dbConnection;

@@ -1,5 +1,6 @@
+/* eslint-disable import/extensions */
 import { check } from "express-validator";
-import { validatorMiddleware } from "../../middleware/validatorMiddleware.js";
+import validatorMiddleware from "../../middleware/validatorMiddleware.js";
 
 export const getCategoryValidator = [
   check("id").isMongoId().withMessage("Invalid category id format"),
