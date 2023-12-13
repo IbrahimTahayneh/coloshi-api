@@ -1,5 +1,7 @@
 /* eslint-disable import/extensions */
-import { check } from "express-validator";
+
+import { body, check } from "express-validator";
+import slugify from "slugify";
 import validatorMiddleware from "../../middleware/validatorMiddleware.js";
 
 export const getBrandValidator = [
@@ -14,7 +16,11 @@ export const createBrandValidator = [
     .isLength({ min: 3 })
     .withMessage("Too short Brand name")
     .isLength({ max: 32 })
-    .withMessage("Too long Brand name"),
+    .withMessage("Too long Brand name")
+    .custom((val, { req }) => {
+      req.body.slug = slugify(val);
+      return true;
+    }),
   validatorMiddleware,
 ];
 
@@ -24,13 +30,10 @@ export const updateBrandValidator = [
     .withMessage("Brand id must be a not empty")
     .isMongoId()
     .withMessage("Invalid Brand id format"),
-  check("name")
-    .notEmpty()
-    .withMessage("Brand name must be a not empty")
-    .isLength({ min: 3 })
-    .withMessage("Too short Brand name")
-    .isLength({ max: 32 })
-    .withMessage("Too long Brand name"),
+  body("name").custom((val, { req }) => {
+    req.body.slug = slugify(val);
+    return true;
+  }),
   validatorMiddleware,
 ];
 

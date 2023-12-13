@@ -6,6 +6,7 @@ import dbConnection from "./src/config/database.js";
 import categoryRoute from "./src/routes/categoryRoute.js";
 import subCategoryRoute from "./src/routes/subCategoryRoute.js";
 import brandRoute from "./src/routes/brandRoute.js";
+import productRoute from "./src/routes/productRoute.js";
 import ApiError from "./src/utils/apiError.js";
 import globalError from "./src/middleware/errorMiddleware.js";
 
@@ -30,6 +31,7 @@ if (process.env.NODE_ENV === "development") {
 app.use("/api/v1/categories", categoryRoute);
 app.use("/api/v1/subCategories", subCategoryRoute);
 app.use("/api/v1/brands", brandRoute);
+app.use("/api/v1/products", productRoute);
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`Can't find this route: ${req.originalUrl}`, 400));
