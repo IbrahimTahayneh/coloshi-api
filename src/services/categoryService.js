@@ -1,5 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/extensions */
-
+import asyncHandler from "express-async-handler";
+import { v4 as uuidv4 } from "uuid";
+import sharp from "sharp";
 import CategoryModel from "../models/categoryModel.js";
 import {
   deleteOne,
@@ -8,6 +11,25 @@ import {
   updateOne,
   createOne,
 } from "./handlersFactory.js";
+import { uploadSingleImage } from "../middleware/uploadImageMiddleware.js";
+
+export const uploadCategoryImage = uploadSingleImage("image");
+
+// Image processing
+export const resizeImage = asyncHandler(async (req, res, next) => {
+  const filename = `category-${uuidv4()}-${Date.now()}.jpeg`;
+
+  await sharp(req.file.buffer)
+    .resize(600, 600)
+    .toFormat("jpeg")
+    .jpeg({ quality: 95 })
+    .toFile(`src/uploads/categories/${filename}`);
+
+  // Save image into our db
+  req.body.image = filename;
+
+  next();
+});
 
 // @desc     Get list of categories
 // @route    GET /api/v1/categories

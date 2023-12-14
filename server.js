@@ -2,6 +2,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import path from "path";
 import dbConnection from "./src/config/database.js";
 import categoryRoute from "./src/routes/categoryRoute.js";
 import subCategoryRoute from "./src/routes/subCategoryRoute.js";
@@ -9,6 +10,8 @@ import brandRoute from "./src/routes/brandRoute.js";
 import productRoute from "./src/routes/productRoute.js";
 import ApiError from "./src/utils/apiError.js";
 import globalError from "./src/middleware/errorMiddleware.js";
+
+const __dirname = path.resolve();
 
 dotenv.config({ path: "config.env" });
 
@@ -21,6 +24,7 @@ const app = express();
 // middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "src/uploads")));
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));

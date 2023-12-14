@@ -6,6 +6,8 @@ import {
   getProducts,
   updateProduct,
   deleteProduct,
+  uploadProductImages,
+  resizeProductImages,
 } from "../services/productService.js";
 import {
   createProductValidator,
@@ -16,12 +18,25 @@ import {
 
 const router = Router();
 
-router.route("/").get(getProducts).post(createProductValidator, createProduct);
+router
+  .route("/")
+  .get(getProducts)
+  .post(
+    uploadProductImages,
+    resizeProductImages,
+    createProductValidator,
+    createProduct
+  );
 
 router
   .route("/:id")
   .get(getProductValidator, getProduct)
-  .put(updateProductValidator, updateProduct)
+  .put(
+    uploadProductImages,
+    resizeProductImages,
+    updateProductValidator,
+    updateProduct
+  )
   .delete(deleteProductValidator, deleteProduct);
 
 export default router;
