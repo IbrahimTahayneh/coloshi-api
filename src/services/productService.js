@@ -33,7 +33,7 @@ export const resizeProductImages = asyncHandler(async (req, res, next) => {
       .resize(2000, 1333)
       .toFormat("jpeg")
       .jpeg({ quality: 95 })
-      .toFile(`src/uploads/products/${imageCoverFileName}`);
+      .toFile(`uploads/products/${imageCoverFileName}`);
 
     // Save image into our db
     req.body.imageCover = imageCoverFileName;
@@ -49,7 +49,7 @@ export const resizeProductImages = asyncHandler(async (req, res, next) => {
           .resize(2000, 1333)
           .toFormat("jpeg")
           .jpeg({ quality: 95 })
-          .toFile(`src/uploads/products/${imageName}`);
+          .toFile(`uploads/products/${imageName}`);
 
         // Save image into our db
         req.body.images.push(imageName);
