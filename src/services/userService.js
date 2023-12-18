@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 import sharp from "sharp";
 import bcrypt from "bcryptjs";
 import { deleteOne, getAll, getOne, createOne } from "./handlersFactory.js";
-import ApiError from "../utils/apiError";
+import ApiError from "../utils/apiError.js";
 import { uploadSingleImage } from "../middleware/uploadImageMiddleware.js";
 import createToken from "../utils/createToken.js";
 import User from "../models/userModel.js";
