@@ -16,6 +16,7 @@ import {
   updateCategoryValidator,
 } from "../utils/validators/categoryValidator.js";
 import subCategoryRoute from "./subCategoryRoute.js";
+import { protect, allowedTo } from "../services/authService.js";
 
 const router = Router();
 
@@ -25,6 +26,8 @@ router
   .route("/")
   .get(getCategories)
   .post(
+    protect,
+    allowedTo("admin", "manager"),
     uploadCategoryImage,
     resizeImage,
     createCategoryValidator,
@@ -35,11 +38,13 @@ router
   .route("/:id")
   .get(getCategoryValidator, getCategory)
   .put(
+    protect,
+    allowedTo("admin", "manager"),
     uploadCategoryImage,
     resizeImage,
     updateCategoryValidator,
     updateCategory
   )
-  .delete(deleteCategoryValidator, deleteCategory);
+  .delete(protect, allowedTo("admin"), deleteCategoryValidator, deleteCategory);
 
 export default router;

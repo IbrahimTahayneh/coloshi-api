@@ -15,6 +15,7 @@ import {
   getProductValidator,
   updateProductValidator,
 } from "../utils/validators/productVaildator.js";
+import { protect, allowedTo } from "../services/authService.js";
 
 const router = Router();
 
@@ -22,6 +23,8 @@ router
   .route("/")
   .get(getProducts)
   .post(
+    protect,
+    allowedTo("admin", "manager"),
     uploadProductImages,
     resizeProductImages,
     createProductValidator,
@@ -32,11 +35,13 @@ router
   .route("/:id")
   .get(getProductValidator, getProduct)
   .put(
+    protect,
+    allowedTo("admin", "manager"),
     uploadProductImages,
     resizeProductImages,
     updateProductValidator,
     updateProduct
   )
-  .delete(deleteProductValidator, deleteProduct);
+  .delete(protect, allowedTo("admin"), deleteProductValidator, deleteProduct);
 
 export default router;

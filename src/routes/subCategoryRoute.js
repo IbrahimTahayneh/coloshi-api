@@ -15,18 +15,35 @@ import {
   getSubCategoryValidator,
   updateSubCategoryValidator,
 } from "../utils/validators/subCategoryValidator.js";
+import { protect, allowedTo } from "../services/authService.js";
 
 const router = Router({ mergeParams: true });
 
 router
   .route("/")
-  .post(setCategoryIdtoBody, createSubCategoryValidator, createSubCategory)
+  .post(
+    protect,
+    allowedTo("admin", "manager"),
+    setCategoryIdtoBody,
+    createSubCategoryValidator,
+    createSubCategory
+  )
   .get(createFilterObject, getSubCategories);
 
 router
   .route("/:id")
   .get(getSubCategoryValidator, getsubCategory)
-  .put(updateSubCategoryValidator, updateSubCategory)
-  .delete(deleteSubCategoryValidator, deleteSubCategory);
+  .put(
+    protect,
+    allowedTo("admin", "manager"),
+    updateSubCategoryValidator,
+    updateSubCategory
+  )
+  .delete(
+    protect,
+    allowedTo("admin"),
+    deleteSubCategoryValidator,
+    deleteSubCategory
+  );
 
 export default router;
