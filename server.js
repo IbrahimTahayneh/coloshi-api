@@ -11,6 +11,9 @@ import productRoute from "./src/routes/productRoute.js";
 import userRoute from "./src/routes/userRoute.js";
 import authRoute from "./src/routes/authRoute.js";
 import ApiError from "./src/utils/apiError.js";
+import reviewRoute from "./src/routes/reviewRoute.js";
+import wishlistRoute from "./src/routes/wishlistRoute.js";
+import addressRoute from "./src/routes/addressRoute.js";
 import globalError from "./src/middleware/errorMiddleware.js";
 
 const __dirname = path.resolve();
@@ -40,6 +43,9 @@ app.use("/api/v1/brands", brandRoute);
 app.use("/api/v1/products", productRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/reviews", reviewRoute);
+app.use("/api/v1/wishlist", wishlistRoute);
+app.use("/api/v1/addresses", addressRoute);
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`Can't find this route: ${req.originalUrl}`, 400));
